@@ -6,9 +6,9 @@ import retrofit2.http.Path
 
 interface ReviewsApi {
 
-  @GET("activities/23776/reviews")
+  @GET("activities/141648/reviews?offset=0&limit=60")
   suspend fun getReviews(): ReviewResponse
 
-  @GET("activities/23776/reviews")
+  @GET("activities/141648/reviews?offset=0&limit=60")
   fun getReviewsRx(): Observable<ReviewResponse>
 }
