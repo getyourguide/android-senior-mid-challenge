@@ -7,12 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.getyourguide.interview.databinding.FragmentReviewsBinding
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,8 +36,7 @@ class ReviewsFragment : Fragment() {
     binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     binding.recyclerView.adapter = adapter
 
-//    loadData()
-    loadDataRx()
+    loadData()
   }
 
   private fun loadData() {
@@ -54,19 +49,6 @@ class ReviewsFragment : Fragment() {
         }
       }
     }
-  }
-
-  private fun loadDataRx() {
-    api.getReviewsRx()
-      .subscribeOn(Schedulers.io())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribeBy(
-        onNext = {
-          onSuccess(it.reviews)
-        },
-        onError = {
-        }
-      )
   }
 
   private fun onSuccess(reviews: List<ReviewResponse.ReviewsDto>) {

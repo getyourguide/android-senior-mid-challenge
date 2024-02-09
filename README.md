@@ -11,4 +11,4 @@ As a potential traveler, I want to be able to fetch reviews for one of our most 
 We’ll evaluate platform, architecture, testing, and problem solving-knowledge.
 
 What you’ll need:
-- Java 11 and Android Studio configured
+- Java 17 and Android Studio configured
