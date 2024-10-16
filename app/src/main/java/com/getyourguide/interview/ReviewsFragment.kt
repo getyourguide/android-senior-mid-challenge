@@ -71,19 +71,8 @@ class ReviewsFragment : Fragment() {
           Column(
             Modifier.verticalScroll(rememberScrollState())
           ) {
-            it.reviews.forEach {
-              ReviewItem(
-                dateText = LocalDateTime.parse(
-                  it.created,
-                  DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz")
-                )
-                  .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
-                rating = it.rating ?: 0f,
-                message = it.message ?: "",
-                authorName = it.author.fullName ?: "",
-                authorCountry = it.author.country ?: "",
-                authorPhoto = it.author.photo ?: ""
-              )
+            it.reviews.forEachIndexed { index, it ->
+              ReviewItem(it)
             }
           }
         }
@@ -100,23 +89,27 @@ class ReviewsFragment : Fragment() {
       }
     }
   }
+
+
 }
 
-
 @Composable
-fun ReviewItem(
-  dateText: String,
-  rating: Float,
-  message: String,
-  authorName: String,
-  authorCountry: String,
-  authorPhoto: String
-) {
+fun ReviewItem(review: ReviewResponse.ReviewsDto) {
   Column(
     modifier = Modifier
       .fillMaxWidth()
       .padding(16.dp)
   ) {
+    val rating = remember { review.rating ?: 0f }
+    val message = remember { review.message ?: "" }
+    val authorName = remember { review.author.fullName ?: "" }
+    val authorCountry = remember { review.author.country ?: "" }
+    val authorPhoto = remember { review.author.photo ?: "" }
+    val dateText = LocalDateTime.parse(
+      review.created,
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz")
+    ).format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+
     Text(
       text = dateText,
       style = MaterialTheme.typography.bodySmall,
@@ -163,7 +156,7 @@ fun ReviewItem(
           color = MaterialTheme.colorScheme.labelPrimary,
         )
         Text(
-          text = "$authorName - $authorCountry",
+          text = "${authorName} - ${authorCountry}",
           style = MaterialTheme.typography.bodyMedium,
           maxLines = 1,
           overflow = TextOverflow.Ellipsis,
