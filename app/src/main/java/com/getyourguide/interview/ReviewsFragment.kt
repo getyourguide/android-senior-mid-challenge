@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -74,7 +73,10 @@ class ReviewsFragment : Fragment() {
           ) {
             it.reviews.forEach {
               ReviewItem(
-                dateText = LocalDateTime.parse(it.created, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz"))
+                dateText = LocalDateTime.parse(
+                  it.created,
+                  DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz")
+                )
                   .format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
                 rating = it.rating ?: 0f,
                 message = it.message ?: "",
@@ -137,7 +139,6 @@ fun ReviewItem(
 
     Row(
       modifier = Modifier
-        .wrapContentSize()
         .padding(bottom = 10.dp)
     ) {
 
