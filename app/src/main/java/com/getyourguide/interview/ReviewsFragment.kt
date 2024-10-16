@@ -37,6 +37,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import coil.compose.AsyncImage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -61,8 +65,7 @@ class ReviewsFragment : Fragment() {
       )
       setContent {
         var data by remember { mutableStateOf<ReviewResponse?>(null) }
-
-        LaunchedEffect(Unit) {
+        GlobalScope.launch {
           val response = api.getReviews()
           data = response
         }
