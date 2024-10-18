@@ -21,7 +21,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,11 +57,6 @@ class ReviewsFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View {
     return ComposeView(requireContext()).apply {
-      setViewCompositionStrategy(
-        ViewCompositionStrategy.DisposeOnLifecycleDestroyed(
-          viewLifecycleOwner
-        )
-      )
       setContent {
         var data by remember { mutableStateOf<ReviewResponse?>(null) }
         GlobalScope.launch {
