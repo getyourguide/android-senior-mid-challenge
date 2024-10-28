@@ -1,4 +1,4 @@
-name: Repository Maintenance
+name: Dependency Submission
 
 on:
   push:
@@ -6,8 +6,24 @@ on:
 
 jobs:
   maintenance_workflow:
-    uses: getyourguide/java-actions/.github/workflows/reusable-java-repo-maintenance-workflow.yml@v1.0.9
-    name: Maintenance
-    secrets:
-      CODEARTIFACT_AUTH_TOKEN: ${{ secrets.CODEARTIFACT_AUTH_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4.2.1
+      - uses: actions/setup-java@v4.4.0
+        name: Setup Java
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v4.1.0
+        with:
+          gradle-version: wrapper
+          dependency-graph: generate-and-submit
+          # Include only relevant configurations
+          dependency-graph-include-configurations: '(implementation|api|compileClasspath|runtimeClasspath)'
+        env:
+          CODEARTIFACT_AUTH_TOKEN: ${{ secrets.CODEARTIFACT_AUTH_TOKEN }}
+          SCHEMAPI_LOGIN: ${{ secrets.SCHEMAPI_LOGIN }}
+          SCHEMAPI_PASSWORD: ${{ secrets.SCHEMAPI_PASSWORD }}
 
